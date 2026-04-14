@@ -1,0 +1,105 @@
+<mujoco model="test9_clean">
+  <compiler angle="radian" meshdir="meshes/"/>
+  <option timestep="0.002" integrator="RK4" gravity="0 0 -9.81"/>
+
+  <asset>
+    <mesh name="base_link" file="base_link.STL"/>
+    <mesh name="roll_right" file="roll_right.STL"/>
+    <mesh name="thigh_right" file="thigh_right.STL"/>
+    <mesh name="knee_right" file="knee_right.STL"/>
+    <mesh name="roll_left" file="roll_left.STL"/>
+    <mesh name="thigh_left" file="thigh_left.STL"/>
+    <mesh name="knee_left" file="knee_left.STL"/>
+    <material name="visual_mat" rgba="0.7 0.7 0.7 1"/>
+  </asset>
+
+  <default>
+    <geom type="mesh" contype="0" conaffinity="0" material="visual_mat"/>
+    <joint damping="0.1" frictionloss="0.05" armature="0.01"/>
+  </default>
+
+  <contact>
+    <exclude body1="base_link" body2="thigh_right"/>
+    <exclude body1="base_link" body2="knee_right"/>
+    <exclude body1="base_link" body2="thigh_left"/>
+    <exclude body1="base_link" body2="knee_left"/>
+    <exclude body1="roll_right" body2="knee_right"/>
+    <exclude body1="roll_left" body2="knee_left"/>
+    <exclude body1="thigh_right" body2="thigh_left"/>
+    <exclude body1="knee_right" body2="knee_left"/>
+    <exclude body1="roll_right" body2="roll_left"/>
+    <exclude body1="thigh_right" body2="roll_left"/>
+    <exclude body1="thigh_left" body2="roll_right"/>
+  </contact>
+
+  <worldbody>
+    <light pos="0 0 3" dir="0 0 -1" directional="true" diffuse="0.8 0.8 0.8"/>
+    <geom name="floor" type="plane" size="5 5 0.05" rgba="0.5 0.5 0.5 1" contype="1" conaffinity="1"/>
+
+    <body name="base_link" pos="0 0 0.5">
+      <joint name="root_x" type="slide" axis="1 0 0"/>
+      <joint name="root_z" type="slide" axis="0 0 1"/>
+      <joint name="root_y" type="hinge" axis="0 1 0"/>
+     <!--<freejoint name="root"/>-->
+      <inertial pos="-0.0063 0 0" mass="1.5954" diaginertia="0.0043 0.0033 0.0029"/>
+      <geom mesh="base_link"/>
+      <geom type="box" size="0.125 0.05 0.07" pos="0.022 0 0" rgba="1 0 0 1" contype="1" conaffinity="1"/>
+
+      <body name="roll_right" pos="0 -0.075 0" quat="0.5 0.5 -0.5 -0.5">
+        <inertial pos="0.0217 0 -0.0556" mass="0.5509" diaginertia="0.0012 0.0007 0.0007"/>
+        <joint name="hip1r" axis="0 0 -1" range="-3.14 3.14"/>
+        <geom mesh="roll_right"/>
+        <geom type="cylinder" size="0.04 0.04" pos="0.02 0 -0.05" rgba="0 0 0 0" contype="1" conaffinity="1"/>
+
+        <body name="thigh_right" pos="0.0655 0 -0.0805" quat="0.5 0.5 0.5 0.5">
+          <inertial pos="-0.0439 0.0049 0.0427" mass="0.6381" diaginertia="0.0032 0.0027 0.0005"/>
+          <joint name="hip2r" axis="0 0 1" range="-3.14 3.14"/>
+          <geom mesh="thigh_right"/>
+          <geom type="capsule" size="0.035 0.125" pos="-0.125 0 0.01" quat="0.707107 0 0.707107 0" rgba="0 0 0 0" contype="1" conaffinity="1"/>
+
+          <body name="knee_right" pos="-0.25 0 0.018" quat="0.7071 0 0 -0.7071">
+            <inertial pos="0.0891 0 0" mass="0.1492" diaginertia="0.0001 0.0001 0.0001"/>
+            <joint name="hip3r" axis="0 0 1" range="-3.14 3.14"/>
+            <geom mesh="knee_right"/>
+            <geom type="capsule" size="0.012 0.08" pos="0.115 0 0" quat="0.707107 0 0.707107 0" rgba="0 0 0 0" contype="1" conaffinity="1"/>
+            
+            <geom name="contact_foot_r" type="sphere" size="0.02241" pos="0.23 0 0" rgba="1 0.5 0 1" contype="1" conaffinity="1" friction="1 0.005 0.0001"/>
+          </body>
+        </body>
+      </body>
+
+      <body name="roll_left" pos="0 0.075 0" quat="0.5 0.5 0.5 0.5">
+        <inertial pos="0.0217 0 0.0556" mass="0.5509" diaginertia="0.0012 0.0007 0.0007"/>
+        <joint name="hip1l" axis="0 0 1" range="-3.14 3.14"/>
+        <geom mesh="roll_left"/>
+        <geom type="cylinder" size="0.04 0.04" pos="0.02 0 0.05" rgba="0 0 0 0" contype="1" conaffinity="1"/>
+
+        <body name="thigh_left" pos="0.0655 0 0.0805" quat="0.5 0.5 -0.5 -0.5">
+          <inertial pos="0.0414 -0.0049 -0.0427" mass="0.6381" diaginertia="0.0032 0.0028 0.0005"/>
+          <joint name="hip2l" axis="0 0 -1" range="-3.14 3.14"/>
+          <geom mesh="thigh_left"/>
+          <geom type="capsule" size="0.035 0.125" pos="0.125 0 -0.01" quat="0.707107 0 0.707107 0" rgba="0 0 0 0" contype="1" conaffinity="1"/>
+
+          <body name="knee_left" pos="0.25 0 -0.018" quat="0.7071 0 0 0.7071">
+            <inertial pos="0.0891 0 0" mass="0.1492" diaginertia="0.0001 0.0001 0.0001"/>
+            <joint name="hip3l" axis="0 0 -1" range="-3.14 3.14"/>
+            <geom mesh="knee_left"/>
+            <geom type="capsule" size="0.012 0.08" pos="0.115 0 0" quat="0.707107 0 0.707107 0" rgba="0 0 0 0" contype="1" conaffinity="1"/>
+            
+            <geom name="contact_foot_l" type="sphere" size="0.02241" pos="0.23 0 0" rgba="1 0.5 0 1" contype="1" conaffinity="1" friction="1 0.005 0.0001"/>
+          </body>
+        </body>
+      </body>
+
+    </body>
+  </worldbody>
+
+  <actuator>
+    <position joint="hip1r" name="pos_hip1r" kp="40" kv="2.0" ctrllimited="true" ctrlrange="-0.5 0.5"/>
+    <position joint="hip2r" name="pos_hip2r" kp="40" kv="2.0" ctrllimited="true" ctrlrange="-3.14 3.14"/>
+    <position joint="hip3r" name="pos_hip3r" kp="40" kv="2.0" ctrllimited="true" ctrlrange="-1 1.2"/>
+    <position joint="hip1l" name="pos_hip1l" kp="40" kv="2.0" ctrllimited="true" ctrlrange="-0.5 0.5"/>
+    <position joint="hip2l" name="pos_hip2l" kp="40" kv="2.0" ctrllimited="true" ctrlrange="-3.14 3.14"/>
+    <position joint="hip3l" name="pos_hip3l" kp="40" kv="2.0" ctrllimited="true" ctrlrange="-1 1.2"/>
+  </actuator>
+</mujoco>
