@@ -5,14 +5,11 @@ import os
 import threading
 import numpy as np
 
-# q1: Roll 
-# q2: Pitch đùi
-# q3: Pitch gối 
-shared_cmd = {
-    "R": {"q1": 0.0, "q2": 0.0, "q3": 0.0},
-    "L": {"q1": 0.0, "q2": 0.0, "q3": 0.0}
-}
 
+shared_cmd = {
+    "R": {"q1": -0.05, "q2": -0.3912, "q3": -0.9836}, 
+    "L": {"q1": 0.05, "q2": 0.3912, "q3": 0.9836}  
+}
 def terminal_controller():
     print("==CONTROL BROAD==")
     print("Syntax: [leg(R/L)] [Corner_Roll] [Corner_Hip] [Coner_Knee]")
@@ -46,9 +43,9 @@ def terminal_controller():
         except ValueError:
             print("error , real corner only .")
 
-# main
+
 current_dir = os.path.dirname(os.path.abspath(__file__))
-# Đảm bảo đường dẫn file XML trỏ đúng vào file bạn vừa sửa 
+
 scene_path = os.path.join(current_dir, "scene.xml") 
 model = mujoco.MjModel.from_xml_path(scene_path)
 data = mujoco.MjData(model)
@@ -62,7 +59,7 @@ with mujoco.viewer.launch_passive(model, data) as viewer:
     while viewer.is_running():
         step_start = time.time()
         
-        # 1. Bỏ comment để PID nhận lệnh từ Terminal
+        
         data.ctrl[actuator_ids[0]] = shared_cmd["R"]["q1"]
         data.ctrl[actuator_ids[1]] = shared_cmd["R"]["q2"]
         data.ctrl[actuator_ids[2]] = shared_cmd["R"]["q3"]
@@ -70,10 +67,9 @@ with mujoco.viewer.launch_passive(model, data) as viewer:
         data.ctrl[actuator_ids[4]] = shared_cmd["L"]["q2"]
         data.ctrl[actuator_ids[5]] = shared_cmd["L"]["q3"]     
         
-        # 2. HACK ĐỘNG HỌC: Treo base_link trên không trung
-        # Thẻ <freejoint> sinh ra 7 biến vị trí ở đầu mảng qpos (X, Y, Z, qw, qx, qy, qz)
-        data.qpos[0:3] = [0.0, 0.0, 0.6]  # Ép thân ở tọa độ X=0, Y=0, Z=0.6 mét
-        data.qpos[3:7] = [1.0, 0.0, 0.0, 0.0]  # Ép thân thẳng đứng (Quaternion: không xoay)
+      
+        data.qpos[0:3] = [0.0, 0.0, 0.6]  
+        data.qpos[3:7] = [1.0, 0.0, 0.0, 0.0]  
         
         mujoco.mj_step(model, data)
         viewer.sync()     
