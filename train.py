@@ -2,6 +2,7 @@ import os
 import time
 import torch
 import warnings
+from gymnasium.wrappers import TimeLimit
 warnings.filterwarnings("ignore")  
 
 from stable_baselines3 import PPO
@@ -16,6 +17,7 @@ def make_env():
 
 def make_eval_env():
     env = CustomBipedalEnv(xml_path="scene.xml")
+    env = TimeLimit(env, max_episode_steps=1000)
     return Monitor(env)
 
 if __name__ == "__main__":
