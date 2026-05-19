@@ -97,9 +97,9 @@
   <actuator>
     <position joint="hip1r" name="pos_hip1r" kp="50" kv="2.0" ctrllimited="true" ctrlrange="-0.5 0.5"/>
     <position joint="hip2r" name="pos_hip2r" kp="50" kv="2.0" ctrllimited="true" ctrlrange="-1.2 0"/>
-    <position joint="hip3r" name="pos_hip3r" kp="50" kv="2.0" ctrllimited="true" ctrlrange="-1.8 0.8"/>
+    <position joint="hip3r" name="pos_hip3r" kp="50" kv="2.0" ctrllimited="true" ctrlrange="-0.4 0.8"/>
     <position joint="hip1l" name="pos_hip1l" kp="50" kv="2.0" ctrllimited="true" ctrlrange="-0.5 0.5"/>
     <position joint="hip2l" name="pos_hip2l" kp="50" kv="2.0" ctrllimited="true" ctrlrange="-1.2 0"/>
-    <position joint="hip3l" name="pos_hip3l" kp="50" kv="2.0" ctrllimited="true" ctrlrange="-1.8 0.8"/>
+    <position joint="hip3l" name="pos_hip3l" kp="50" kv="2.0" ctrllimited="true" ctrlrange="-0.4 0.8"/>
   </actuator>
 </mujoco>
