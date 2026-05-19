@@ -2,7 +2,10 @@ import os
 import time
 import torch
 import warnings
+<<<<<<< HEAD
 from gymnasium.wrappers import TimeLimit
+=======
+>>>>>>> 56ebddc3229072649c19b5b552c39b0497e46b5c
 warnings.filterwarnings("ignore")  
 
 from stable_baselines3 import PPO
@@ -17,7 +20,10 @@ def make_env():
 
 def make_eval_env():
     env = CustomBipedalEnv(xml_path="scene.xml")
+<<<<<<< HEAD
     env = TimeLimit(env, max_episode_steps=1000)
+=======
+>>>>>>> 56ebddc3229072649c19b5b552c39b0497e46b5c
     return Monitor(env)
 
 if __name__ == "__main__":
@@ -86,4 +92,8 @@ if __name__ == "__main__":
     
     model.save("bipedal_model_final")
     vec_env.save("vec_normalize.pkl")
+<<<<<<< HEAD
     print(" Đã lưu model thành công!")
+=======
+    print(" Đã lưu model thành công!")
+>>>>>>> 56ebddc3229072649c19b5b552c39b0497e46b5c
